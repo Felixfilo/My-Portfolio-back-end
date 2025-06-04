@@ -1,0 +1,109 @@
+{% extends "base.html" %}
+
+{% block title %}Add Project - Portfolio{% endblock %}
+
+{% block content %}
+<div style="max-width: 800px; margin: 0 auto;">
+    <div style="text-align: center; margin-bottom: 2rem;">
+        <h1 style="font-size: 2.5rem; margin-bottom: 0.5rem; color: #333;">
+            <i class="fas fa-plus-circle"></i> Add New Project
+        </h1>
+        <p style="color: #666;">Share your latest work with the world</p>
+    </div>
+
+    <div class="card">
+        <div class="card-body" style="padding: 2rem;">
+            <form method="POST">
+                <div class="form-group">
+                    <label for="title">
+                        <i class="fas fa-heading"></i> Project Title *
+                    </label>
+                    <input type="text" id="title" name="title" class="form-control" required 
+                           placeholder="Enter your project title">
+                </div>
+
+                <div class="form-group">
+                    <label for="description">
+                        <i class="fas fa-align-left"></i> Description *
+                    </label>
+                    <textarea id="description" name="description" class="form-control" required 
+                              placeholder="Describe your project, its features, and what makes it special..."></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label for="technologies">
+                        <i class="fas fa-tools"></i> Technologies Used
+                    </label>
+                    <input type="text" id="technologies" name="technologies" class="form-control" 
+                           placeholder="e.g., Python, Flask, JavaScript, React (comma-separated)">
+                    <small style="color: #666; font-size: 0.9rem;">
+                        <i class="fas fa-info-circle"></i> Separate multiple technologies with commas
+                    </small>
+                </div>
+
+                <div class="form-group">
+                    <label for="github_url">
+                        <i class="fab fa-github"></i> GitHub URL
+                    </label>
+                    <input type="url" id="github_url" name="github_url" class="form-control" 
+                           placeholder="https://github.com/username/repository">
+                </div>
+
+                <div class="form-group">
+                    <label for="demo_url">
+                        <i class="fas fa-external-link-alt"></i> Demo URL
+                    </label>
+                    <input type="url" id="demo_url" name="demo_url" class="form-control" 
+                           placeholder="https://your-project-demo.com">
+                </div>
+
+                <div class="form-group">
+                    <label for="image_url">
+                        <i class="fas fa-image"></i> Project Image URL
+                    </label>
+                    <input type="url" id="image_url" name="image_url" class="form-control" 
+                           placeholder="https://example.com/project-screenshot.jpg">
+                    <small style="color: #666; font-size: 0.9rem;">
+                        <i class="fas fa-info-circle"></i> Optional: Add a screenshot or preview image of your project
+                    </small>
+                </div>
+
+                <div style="display: flex; gap: 1rem; justify-content: center; margin-top: 2rem;">
+                    <button type="submit" class="btn" style="padding: 1rem 2rem;">
+                        <i class="fas fa-save"></i> Add Project
+                    </button>
+                    <a href="{{ url_for('home') }}" class="btn btn-secondary" style="padding: 1rem 2rem;">
+                        <i class="fas fa-times"></i> Cancel
+                    </a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script>
+    // Form validation and enhancement
+    document.querySelector('form').addEventListener('submit', function(e) {
+        const title = document.getElementById('title').value.trim();
+        const description = document.getElementById('description').value.trim();
+        
+        if (!title || !description) {
+            e.preventDefault();
+            alert('Please fill in all required fields (Title and Description).');
+            return;
+        }
+        
+        // Show loading state
+        const submitBtn = document.querySelector('button[type="submit"]');
+        submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Adding Project...';
+        submitBtn.disabled = true;
+    });
+
+    // Auto-resize textarea
+    const textarea = document.getElementById('description');
+    textarea.addEventListener('input', function() {
+        this.style.height = 'auto';
+        this.style.height = this.scrollHeight + 'px';
+    });
+</script>
+{% endblock %}

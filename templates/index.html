@@ -1,0 +1,79 @@
+{% extends "base.html" %}
+
+{% block title %}Portfolio - Home{% endblock %}
+
+{% block content %}
+<div style="text-align: center; margin-bottom: 3rem;">
+    <h1 style="font-size: 3rem; margin-bottom: 1rem; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">
+        My Portfolio
+    </h1>
+    <p style="font-size: 1.2rem; color: #666; max-width: 600px; margin: 0 auto;">
+        Welcome to my portfolio! Here you can explore my projects and see what I've been working on.
+    </p>
+</div>
+
+{% if projects %}
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 2rem; margin-bottom: 2rem;">
+        {% for project in projects %}
+            <div class="card">
+                {% if project.image_url %}
+                    <img src="{{ project.image_url }}" alt="{{ project.title }}" 
+                         style="width: 100%; height: 200px; object-fit: cover;">
+                {% else %}
+                    <div style="width: 100%; height: 200px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); display: flex; align-items: center; justify-content: center;">
+                        <i class="fas fa-code" style="font-size: 3rem; color: white; opacity: 0.7;"></i>
+                    </div>
+                {% endif %}
+                
+                <div class="card-body">
+                    <h3 style="margin-bottom: 1rem; color: #333;">{{ project.title }}</h3>
+                    <p style="color: #666; margin-bottom: 1rem; line-height: 1.6;">
+                        {{ project.description[:150] }}{% if project.description|length > 150 %}...{% endif %}
+                    </p>
+                    
+                    {% if project.technologies %}
+                        <div style="margin-bottom: 1rem;">
+                            {% for tech in project.technologies %}
+                                <span style="display: inline-block; background: #e9ecef; color: #495057; padding: 0.25rem 0.75rem; border-radius: 20px; font-size: 0.85rem; margin: 0.25rem 0.25rem 0.25rem 0;">
+                                    {{ tech.name }}
+                                </span>
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+                    
+                    <div style="display: flex; gap: 1rem; flex-wrap: wrap;">
+                        <a href="{{ url_for('project_detail', project_id=project.id) }}" class="btn" style="flex: 1; text-align: center; min-width: 120px;">
+                            <i class="fas fa-eye"></i> View Details
+                        </a>
+                        {% if project.github_url %}
+                            <a href="{{ project.github_url }}" target="_blank" class="btn btn-secondary" style="flex: 1; text-align: center; min-width: 120px;">
+                                <i class="fab fa-github"></i> GitHub
+                            </a>
+                        {% endif %}
+                        {% if project.demo_url %}
+                            <a href="{{ project.demo_url }}" target="_blank" class="btn" style="flex: 1; text-align: center; min-width: 120px;">
+                                <i class="fas fa-external-link-alt"></i> Demo
+                            </a>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+{% else %}
+    <div style="text-align: center; padding: 4rem 2rem; background: white; border-radius: 12px; box-shadow: 0 4px 20px rgba(0,0,0,0.1);">
+        <i class="fas fa-folder-open" style="font-size: 4rem; color: #ccc; margin-bottom: 1rem;"></i>
+        <h2 style="color: #666; margin-bottom: 1rem;">No Projects Yet</h2>
+        <p style="color: #999; margin-bottom: 2rem;">Start building your portfolio by adding your first project!</p>
+        <a href="{{ url_for('add_project') }}" class="btn">
+            <i class="fas fa-plus"></i> Add Your First Project
+        </a>
+    </div>
+{% endif %}
+
+<div style="text-align: center; margin-top: 3rem;">
+    <a href="{{ url_for('add_project') }}" class="btn" style="font-size: 1.1rem; padding: 1rem 2rem;">
+        <i class="fas fa-plus"></i> Add New Project
+    </a>
+</div>
+{% endblock %}

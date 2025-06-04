@@ -1,0 +1,11 @@
+{
+    "cSpell.words": [
+        "jsonify",
+        "sqlalchemy",
+        "werkzeug",
+        "jinja",
+        "csrf",
+        "onupdate",
+        "backref"
+    ]
+}
