@@ -1,4 +1,5 @@
 from flask import Flask, render_template, request, redirect, url_for, flash, jsonify
+from flask_migrate import Migrate
 from datetime import datetime
 import os
 from models import db, Project, Technology
