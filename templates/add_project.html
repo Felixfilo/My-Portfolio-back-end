@@ -13,7 +13,7 @@
 
     <div class="card">
         <div class="card-body" style="padding: 2rem;">
-            <form method="POST">
+            <form method="POST" enctype="multipart/form-data">
                 <div class="form-group">
                     <label for="title">
                         <i class="fas fa-heading"></i> Project Title *
@@ -68,6 +68,79 @@
                     </small>
                 </div>
 
+                <!-- Main Project Image Upload -->
+                <div class="form-group">
+                    <label for="project_image">
+                        <i class="fas fa-upload"></i> Upload Project Image
+                    </label>
+                    <input type="file" id="project_image" name="project_image" class="form-control" 
+                           accept="image/*">
+                    <small style="color: #666; font-size: 0.9rem;">
+                        <i class="fas fa-info-circle"></i> Upload a main image for your project (overrides URL above)
+                    </small>
+                </div>
+
+                <!-- Demo Images Section -->
+                <div class="form-group">
+                    <label>
+                        <i class="fas fa-images"></i> Demo Images (Upload Multiple)
+                    </label>
+                    <input type="file" name="demo_files" class="form-control" 
+                           accept="image/*" multiple>
+                    <small class="form-text text-muted">
+                        <i class="fas fa-info-circle"></i> Select multiple images to showcase your project (8-12 recommended)
+                    </small>
+                </div>
+
+                <!-- Demo Videos Section -->
+                <div class="form-group">
+                    <label>
+                        <i class="fas fa-video"></i> Demo Videos (Upload Multiple)
+                    </label>
+                    <input type="file" name="demo_files" class="form-control" 
+                           accept="video/*" multiple>
+                    <small class="form-text text-muted">
+                        <i class="fas fa-info-circle"></i> Upload videos demonstrating your project
+                    </small>
+                </div>
+
+                <!-- URL-based Media Section -->
+                <div class="form-group">
+                    <label>
+                        <i class="fas fa-link"></i> Additional Media URLs
+                    </label>
+                    <div id="demo-media-container">
+                        <div class="demo-media-item border p-3 mb-3 rounded">
+                            <div class="row">
+                                <div class="col-md-5">
+                                    <label class="small">Media URL</label>
+                                    <input type="url" name="demo_media_urls" class="form-control" 
+                                           placeholder="https://example.com/demo-image.jpg">
+                                </div>
+                                <div class="col-md-3">
+                                    <label class="small">Media Type</label>
+                                    <select name="demo_media_types" class="form-control">
+                                        <option value="image">Image</option>
+                                        <option value="video">Video</option>
+                                        <option value="gif">GIF</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-4">
+                                    <label class="small">Media Name (Optional)</label>
+                                    <input type="text" name="demo_media_names" class="form-control" 
+                                           placeholder="Screenshot 1">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <button type="button" class="btn btn-outline-secondary btn-sm" onclick="addDemoMedia()">
+                        <i class="fas fa-plus"></i> Add More Media URLs
+                    </button>
+                    <small class="form-text text-muted">
+                        <i class="fas fa-info-circle"></i> Add images, videos, or GIFs via URLs
+                    </small>
+                </div>
+
                 <div style="display: flex; gap: 1rem; justify-content: center; margin-top: 2rem;">
                     <button type="submit" class="btn" style="padding: 1rem 2rem;">
                         <i class="fas fa-save"></i> Add Project
@@ -82,6 +155,42 @@
 </div>
 
 <script>
+    // Add more media URL fields
+    function addDemoMedia() {
+        const container = document.getElementById('demo-media-container');
+        const newItem = document.createElement('div');
+        newItem.className = 'demo-media-item border p-3 mb-3 rounded';
+        newItem.innerHTML = `
+            <div class="row">
+                <div class="col-md-5">
+                    <label class="small">Media URL</label>
+                    <input type="url" name="demo_media_urls" class="form-control" 
+                           placeholder="https://example.com/demo-image.jpg">
+                </div>
+                <div class="col-md-3">
+                    <label class="small">Media Type</label>
+                    <select name="demo_media_types" class="form-control">
+                        <option value="image">Image</option>
+                        <option value="video">Video</option>
+                        <option value="gif">GIF</option>
+                    </select>
+                </div>
+                <div class="col-md-3">
+                    <label class="small">Media Name (Optional)</label>
+                    <input type="text" name="demo_media_names" class="form-control" 
+                           placeholder="Screenshot 2">
+                </div>
+                <div class="col-md-1">
+                    <label class="small">&nbsp;</label>
+                    <button type="button" class="btn btn-danger btn-sm form-control" onclick="this.parentElement.parentElement.parentElement.remove()">
+                        <i class="fas fa-trash"></i>
+                    </button>
+                </div>
+            </div>
+        `;
+        container.appendChild(newItem);
+    }
+
     // Form validation and enhancement
     document.querySelector('form').addEventListener('submit', function(e) {
         const title = document.getElementById('title').value.trim();
