@@ -9,13 +9,14 @@ load_dotenv()
 
 # Supabase configuration from environment variables
 SUPABASE_URL = os.getenv('SUPABASE_URL')
-SUPABASE_KEY = os.getenv('SUPABASE_KEY')
+# Use SERVICE_KEY for file uploads to bypass RLS policies on storage operations
+SUPABASE_KEY = os.getenv('SUPABASE_SERVICE_KEY') or os.getenv('SUPABASE_KEY')
 BUCKET_NAME = os.getenv('BUCKET_NAME', 'portfolio-media')
 
 if not SUPABASE_URL or not SUPABASE_KEY:
-    raise ValueError("SUPABASE_URL and SUPABASE_KEY must be set in environment variables")
+    raise ValueError("SUPABASE_URL and SUPABASE_KEY (or SUPABASE_SERVICE_KEY) must be set in environment variables")
 
-# Initialize Supabase client
+# Initialize Supabase client with service key for backend operations
 supabase: Client = create_client(SUPABASE_URL, SUPABASE_KEY)
 
 def upload_file_to_supabase(file, folder):
